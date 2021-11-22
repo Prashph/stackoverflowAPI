@@ -1,0 +1,56 @@
+{% extends 'questions/index.html' %}
+{% block content %}
+<header class="masthead">
+            <div class="container h-100">
+                <div class="row h-100 align-items-center justify-content-center text-center">
+
+				<h1>
+					Fill the parameters
+
+				</h1>
+			
+				</div>
+			
+					<form method="POST" > 
+					<div class="row" >
+						
+						{% csrf_token %}
+						{% for field in form %}
+							    <div class="col-2">
+								<h6>{{ field.name }}</h6>
+								{{ field }}
+								</div>
+
+						{% endfor %}
+						
+					</div>
+					<br><br>
+						<button type="submit" class="btn btn-primary">Search</button>	
+					</form>
+			</div>
+<p> Refer <a href="https://api.stackexchange.com/docs/advanced-search">this link</a> to see what these parameters mean.</p>
+</header>
+<section>
+	<div class="container">
+	<h2> Your Questions will display here</h2>
+	{% for q in question %}
+		<li>{{ q|safe }}</li>
+	{% endfor %}
+	<br>
+	<div class="pagination">
+		<span class="page-links">
+			{% if page.has_previous %}
+				<a href="/?page={{ page.previous_page }}">previous</a>
+			{% endif %}
+				<span class="page-current">
+					Page {{ page.number }} of {{ page.paginator.num_pages }}.
+				</span>
+			{% if page.has_next %}
+				<a href="/?page={{ page.next_page_number }}">next</a>
+			{% endif %}
+		</span>
+	</div>
+	{{ quota }}
+</div>
+</section>
+{% endblock %}
